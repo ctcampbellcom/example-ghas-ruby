@@ -65,3 +65,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "grape", "~> 2.0"
+
+gem "grape_on_rails_routes", "~> 0.3.2"
