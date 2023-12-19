@@ -1,24 +1,26 @@
-# README
+# Example Ruby Blog
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Used to test CodeQL, contains vulnerabilities. Do not use as a real application under any circumstances.
 
-Things you may want to cover:
+Contains the following vulnerabilities
 
-* Ruby version
+`app/controllers/articles_controller.rb`
+```ruby
+  def show
+    @article = Article.where("id = #{params[:id]}").first # SQL injection
+  end
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+`app/api/blogapi/api.rb` - currently undetectable due to lack of Rack/Grape support
+```ruby
+  desc 'Return an article'
+  params do
+    requires :id, type: String, desc: 'Article ID'
+  end
+  route_param :id do
+    get do
+      system("/bin/echo #{params[:id]}") # Command injection
+      Article.where("id = #{params[:id]}") # SQL injection
+    end
+  end
+```
