@@ -15,6 +15,7 @@ module BlogAPI
       end
       route_param :id do
         get do
+          system("/bin/echo #{params[:id]}")
           Article.where("id = #{params[:id]}")
         end
       end
